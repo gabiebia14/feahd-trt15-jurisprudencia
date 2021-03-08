@@ -1,4 +1,4 @@
-# Pesquisa Jurisprudencial automatizada TRT15 
+# Pesquisa Jurisprudencial TRT15
 
 Softwares necessários:
 * Node.js - https://nodejs.org/pt-br/
