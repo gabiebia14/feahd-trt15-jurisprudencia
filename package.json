@@ -4,6 +4,7 @@
   "description": "Pesquisa Jurisprudencial TRT15",
   "main": "trt15_jurisprudencia.js",
   "dependencies": {
+    "2captcha": "^2.1.5-2",
     "puppeteer": "^8.0.0",
     "puppeteer-extra": "^3.1.17",
     "puppeteer-extra-plugin-recaptcha": "^3.3.3"
