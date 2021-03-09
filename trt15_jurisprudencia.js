@@ -47,7 +47,7 @@ const jurisprudenciaTRT15 = async () => {
 
   // Inicia o browser
   const browser = await puppeteer.launch({
-    headless: true, // Mudar para false para ver a janela do browser
+    headless: false, // Mudar para false para ver a janela do browser
     slowMo: 100 // Adiciona um tempo em milissegundos entre cada ação
   });
   console.log("Browser - OK");
@@ -63,13 +63,23 @@ const jurisprudenciaTRT15 = async () => {
     { waitUntil: "domcontentloaded" }
   );
 
-  // Preencher o campo "Trecho exato"
-  await page.type("#as_epq", "ato discriminatório");
-  console.log("Campo 'Trecho exato' = ato discriminatório - OK");
 
-  // Preencher o campo "Órgão julgador PJe", selecionando "8ª Câmara"
-  //await page.select("#trt_emissor_pje", "17");
-  //console.log("Campo 'Órgão julgador PJe' = 8ª Câmara - OK");
+
+   // Preencher o campo "Órgão julgador PJe", selecionando "8ª Câmara"
+   //await page.select("#trt_emissor_pje", "17");
+   //console.log("Campo 'Órgão julgador PJe' = 8ª Câmara - OK");
+
+  // Preencher o campo "Trecho exato"
+//  await page.type("#as_epq", "ato discriminatório");
+//  console.log("Campo 'Trecho exato' = ato discriminatório - OK");
+
+await page.type("input[name='q']", "ato discriminatório");
+await page.type("#as_oq", "mulher mulheres genero sexo feminino");
+await page.select("#ano_inicio", '2017');
+//await page.select("#ano_final", '2016');
+//console.log("Campo 'Trecho exato' = ato discriminatório - OK");
+
+ 
 
   // Resolver o Recaptcha da página
   console.log("Resolvendo Captcha, aguarde...");
@@ -108,7 +118,8 @@ const jurisprudenciaTRT15 = async () => {
         // Número do processo e link para a consulta de andamentos
         var a_links = Array.from(processo.getElementsByTagName('a'));
         juris.processo = a_links[0].text.split(' ')[3];
-        juris.andamentoslink = a_links[1].href;
+        juris.acordaoLink = a_links[0].href;
+        juris.andamentoslink = `https://pje.trt15.jus.br/consultaprocessual/detalhe-processo/${juris.processo}/2`;
 
         // Informações da publicação
         juris.datapublicacao = informacoes[0].textContent.split(':')[1].trim();
@@ -180,7 +191,7 @@ const jurisprudenciaTRT15 = async () => {
   // Salvar os resultados em um arquivo no formato JSON.
   console.log("Salvando resultados em arquivo JSON...")
   let json = JSON.stringify(resultados, null, 2);
-  fs.writeFileSync('ato_discriminatorio_trt15.json', json);
+  fs.writeFileSync('ato_discriminatorio_trt15_ate2017-2021.json', json);
 
   console.log("\n### Fim da pesquisa automatizada ###");
 };
