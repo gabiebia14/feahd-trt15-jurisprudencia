@@ -103,11 +103,11 @@ const movimentacao2gTRT15 = async () => {
     
     //debugger;
 
-    resultados.push(...movimentos);
+    //resultados.push(...movimentos);
     
   
     // Salvar os resultados em um arquivo no formato JSON.
-    console.log("Salvando resultados em arquivo JSON...")
+    //console.log("Salvando resultados em arquivo JSON...")
     let json = JSON.stringify(resultados, null, 2);
     fs.writeFileSync('movimentos_trt15.json', json);
 
