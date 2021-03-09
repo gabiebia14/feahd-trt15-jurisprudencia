@@ -86,12 +86,12 @@ const movimentacao2gTRT15 = async () => {
         console.log(movimentos);
         console.log(datas);
         
-        return movimentos.forEach((texto, indice) => {
-          mov = {};
-          mov.texto = texto;
-          mov.data = datas[indice];
-          return mov;
-        });
+        // return movimentos.forEach((texto, indice) => {
+        //   mov = {};
+        //   mov.texto = texto;
+        //   mov.data = datas[indice];
+        //   return mov;
+        // });
       });
   
       return resultadosRetornados;
