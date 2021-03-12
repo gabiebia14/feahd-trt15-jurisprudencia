@@ -36,27 +36,29 @@ const movimentacao2gTRT15 = async () => {
   
     // Nova página
     const page = await browser.newPage();
+
+    page.on('console', (msg) => console.log('PAGE LOG:', msg.text()));
   
     // Navegar até a página da pesquisa e aguardar carregar
     await page.goto(
-      "https://pje.trt15.jus.br/consultaprocessual/detalhe-processo/0011995-32.2018.5.15.0003/2",
+      `https://pje.trt15.jus.br/consultaprocessual/detalhe-processo/${nr_processo}/2`,
       { waitUntil: "domcontentloaded" }
     );
   
     await page.solveRecaptchas();
+    //await page.waitFor(5000);
 
+    let nav = page.waitForNavigation({waitUntil: 'networkidle2'});
     try {
       await page.click('button[type="submit"]');
     }
     catch (e) {
       await page.click('input[type="submit"]');
     }
-
-    await page.waitForNavigation({waitUntil: 'networkidle2'});
+    await nav;
 
     const captchaSimples = await page.evaluate(() => {
         img = document.querySelector('#imagemCaptcha');
-        console.log(img.src);
         captcha = img.src.replace(/^data:image\/png;base64,/, "");
         return captcha;
       });
@@ -78,21 +80,24 @@ const movimentacao2gTRT15 = async () => {
     // Salvar o resultado da pesquisa
     const salvarResultado = async () => {
 
-      const resultadosRetornados = await page.evaluate(() => {
+      const movimentosSelector = 'div[name="tipoItemTimeline"] i';
 
-        const movimentos = Array.from(document.querySelectorAll('div[name="tipoItemTimeline"] i')).map((item) => item.getAttribute('aria-label'));
-        const datas = Array.from(document.querySelectorAll('footer')).map((item) => item.getAttribute('title'));
-  
-        console.log(movimentos);
-        console.log(datas);
+      const resultadosRetornados = await page.evaluate((movimentosSelector) => {
+
+        const itens = Array.from(document.querySelectorAll(movimentosSelector));
+
+        const datasSelector = 'footer';
+        const datas = Array.from(document.querySelectorAll(datasSelector));
         
-        // return movimentos.forEach((texto, indice) => {
-        //   mov = {};
-        //   mov.texto = texto;
-        //   mov.data = datas[indice];
-        //   return mov;
-        // });
-      });
+        return itens.map((movimento, idx) => {
+          mov = {}
+          mov.texto = movimento.getAttribute('aria-label');
+          mov.data = datas[idx].getAttribute('title');
+          console.log(mov.texto);
+          console.log(mov.data);
+          return mov;
+        });  
+      }, movimentosSelector);
   
       return resultadosRetornados;
     };
@@ -100,15 +105,12 @@ const movimentacao2gTRT15 = async () => {
 
     
     let movimentos = await salvarResultado();
-    
-    //debugger;
-
-    //resultados.push(...movimentos);
+   
     
   
     // Salvar os resultados em um arquivo no formato JSON.
     //console.log("Salvando resultados em arquivo JSON...")
-    let json = JSON.stringify(resultados, null, 2);
+    let json = JSON.stringify(movimentos, null, 2);
     fs.writeFileSync('movimentos_trt15.json', json);
 
   };
