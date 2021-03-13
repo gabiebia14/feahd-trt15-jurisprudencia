@@ -1,0 +1,9 @@
+{
+    "uid": "app",
+    "append": true,
+    "script": "trt15_movimentacao.js",
+    "sourceDir": "/home/arj/dev/feahd/trt15-jurisprudencia",
+    "logFile": "/home/arj/dev/feahd/trt15-jurisprudencia/logs/forever.log",
+    "outFile": "/home/arj/dev/feahd/trt15-jurisprudencia/logs/out.log",
+    "errFile": "/home/arj/dev/feahd/trt15-jurisprudencia/logs/error.log"
+}
