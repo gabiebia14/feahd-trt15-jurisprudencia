@@ -2,9 +2,11 @@
   "name": "pesquisa-trt15",
   "version": "1.1.0",
   "description": "Pesquisa Jurisprudencial TRT15",
-  "main": "trt15_jurisprudencia.js",
+  "main": "para_excel.js",
   "dependencies": {
     "2captcha": "^2.1.5-2",
+    "convert-array-to-csv": "^2.0.0",
+    "csv": "^5.4.0",
     "html-to-text": "^7.0.0",
     "pm2": "^4.5.5",
     "puppeteer": "^8.0.0",
